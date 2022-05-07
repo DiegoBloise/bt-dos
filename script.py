@@ -3,6 +3,10 @@ from time import sleep
 from threading import Thread
 
 
+def scan_devices():
+    system("sudo hcitool scan")
+
+
 def setup_interface():
     system("sudo rfkill unblock bluetooth")
     system("sudo hciconfig -a hci0 up")
@@ -41,8 +45,38 @@ def main():
         system("clear")
         banner()
         print()
-
-        target_addr = input("{:>25}".format("Target address ~> "))
+        
+        print("[*] Turning on bluetooth interface...")
+        setup_interface()
+        sleep(3)
+        
+        system("clear")
+        banner()
+        print()
+        
+        print("{:>25}".format("[1] Scan nearby devices. "))
+        print("{:>25}".format("[2] Entry device address."))
+        choice = int(input("{:>25}".format("Select an option ~> ")))
+        
+        if choice == 2:
+            target_addr = input("{:>25}".format("Target address ~> "))
+        elif choice == 1:
+            while True:
+                system("clear")
+                banner()
+                print()
+                scan_devices()
+                print()
+                print("{:>25}".format("Enter target address or:"))
+                print("{:>25}".format("[1] Scan again."))
+                print("{:>25}".format("[2] Exit.      "))
+                target_addr = input("{:>25}".format("Option or address ~> "))
+                if target_addr == "1":
+                    continue
+                elif target_addr == "2":
+                    raise KeyboardInterrupt
+                else:
+                    break
         if len(target_addr) < 1:
             print("[!] ERROR: Target address is missing.")
             exit(0)
@@ -57,7 +91,7 @@ def main():
 
         try:
             choice = int(input("{:>25}".format("Select attack ~> ")))
-            if choice not in [1,2]:
+            if choice not in range(1, 3):
                 raise Exception
         except:
             print("[!] ERROR: Select a valid option.")
