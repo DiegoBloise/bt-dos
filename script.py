@@ -31,7 +31,7 @@ def banner():
     *****  **   *****  **        ***    ****    ****   **
     """)
     print("\x1b[0m")
-    print("{:.^60}".format("Bluetooth DOS Attack"))
+    print("{:.^60}".format("Bluetooth DoS Attack"))
     print("")
 
 
@@ -48,7 +48,7 @@ def main():
         
         print("[*] Turning on bluetooth interface...")
         setup_interface()
-        sleep(3)
+        sleep(1.5)
         
         system("clear")
         banner()
@@ -111,7 +111,7 @@ def main():
                 exit(0)
         elif choice == 1:
             pack_size = 600
-            threads = 512
+            threads = 1250
 
 
         print()
