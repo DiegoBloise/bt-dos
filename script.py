@@ -3,6 +3,11 @@ from time import sleep
 from threading import Thread
 
 
+pack_size   = ""
+target_addr = ""
+threads     = ""
+
+
 def scan_devices():
     system("sudo hcitool scan")
 
@@ -40,7 +45,10 @@ def main():
     sleep(0.1)
     print()
     print("\x1b[31mTHIS SOFTWARE IS PROVIDED \"AS IS\" WITHOUT WARRANTY OF ANY KIND.\nYOU MAY USE THIS SOFTWARE AT YOUR OWN RISK.\nTHE USE IS COMPLETE RESPONSABILITY OF THE END-USER.\nTHE DEVELOPERS ASSUME NO LIABILITY AND ARE NOT RESPONSIBLE FOR\nANY MISUSE OR DAMAGE CAUSED BY THIS PROGRAM.\n")
-    if (input("Do you agree? [y/n] ~> ") in ["Y", "y"]):
+    if input("Do you agree? [Y/n] ~> ") in "Nn":
+        print("Finishing...")
+        exit(0)
+    else:
         sleep(0.1)
         system("clear")
         banner()
@@ -77,6 +85,7 @@ def main():
                     raise KeyboardInterrupt
                 else:
                     break
+
         if len(target_addr) < 1:
             print("[!] ERROR: Target address is missing.")
             exit(0)
@@ -111,7 +120,7 @@ def main():
                 exit(0)
         elif choice == 1:
             pack_size = 600
-            threads = 1250
+            threads = 2000
 
 
         print()
@@ -132,9 +141,6 @@ def main():
 
         print("[*] Built all threads...")
         print("[*] Starting...")
-    else:
-        print("Finishing...")
-        exit(0)
 
 
 if __name__ == "__main__":
