@@ -69,7 +69,7 @@ def main():
 
                 print("[*] Scanning nearby devices...")
 
-                #scan_devices()
+                scan_devices()
 
                 targets_file = open("targets", "r")
                 targets_list = targets_file.readlines()
