@@ -3,10 +3,9 @@ from time import sleep
 from threading import Thread
 
 
-pack_size   = ""
 target_addr = ""
-threads     = ""
-arquivo = ""
+pack_size   = 0
+threads     = 0
 
 
 def scan_devices():
